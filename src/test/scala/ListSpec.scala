@@ -5,6 +5,44 @@ import org.scalatest.{FunSuite, Matchers}
   */
 class ListSpec extends FunSuite with Matchers {
   
+  test("cons") {
+    val list1 = List(1, 2, 3, 4)
+    val list2 = 1 :: 2 :: 3 :: 4 :: Nil
+    val list3 = Nil.::(4).::(3).::(2).::(1)
+    val list4 = List().::(4).::(3).::(2).::(1)
+    val list5 = list1.::(5)
+    list1 shouldBe list2
+    list1 shouldBe list3
+    list1 shouldBe list4
+    list5 shouldBe List(5, 1, 2, 3, 4)
+
+    list5 :: list1 shouldBe List(List(5, 1, 2, 3, 4), 1, 2, 3, 4)
+    list5 ::: list1 shouldBe List(5, 1, 2, 3, 4, 1, 2, 3, 4)
+  }
+  
+  test("pattern matching") {
+    def listMatchers(list : List[Any]) = {
+      list match {
+        case a :: b :: c :: d :: Nil => println(a, b, c, d)
+        case a :: b :: c :: Nil => println(s"[3] $a, $b, $c")
+        case a :: b :: Nil => println(s"[2] $a, $b")
+        case a :: Nil => println(s"[1] $a")
+        case Nil => println(s"Nil")
+      }
+    }
+    
+    val list1 = List(1, 2, 3, 4)
+    val list2 = List(1, 2, 3)
+    val list3 = List(1, 2)
+    val list4 = List(1)
+    
+    listMatchers(list1)
+    listMatchers(list2)
+    listMatchers(list3)
+    listMatchers(list4)
+    listMatchers(Nil)
+  }
+  
   test("eq") {
     val a = List(1, 2, 3)
     val b = List(1, 2, 3)
