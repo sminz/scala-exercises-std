@@ -103,4 +103,40 @@ class ImplicitSpec extends FunSuite with Matchers {
     //} complie error - Cannot found implicit ExecutionContext
     }(scala.concurrent.ExecutionContext.Implicits.global)
   }
+  
+  
+  // 함수의 파라메터
+  test("parameter") {
+    def foo(a: Int): String = {
+      a + " " + a
+    }
+    val bar: Int = 10
+    // 명시적
+    println(foo(10))
+    println(foo(bar))
+    
+    // 암묵적으로는??
+    def foo2(implicit a: Int): String = {
+      foo(a)
+    }
+    implicit val bar2: Int = 200
+    println(foo2)
+    println(foo2(bar2))
+  }
+  
+  test("example") {
+    // 1. 인자를 implicit로 받는 함수를 만든다.
+    // 2. implicit 변수를 만든다.
+    // 3. 실행을 해본다.
+    // 4. 다양한 scope에 넣어서 실행 해본다.
+    // 5. 현재 찾을 수 있는 scope에 같은 타입의 implicit이 2개 이상이면 어떻게 되나?
+    
+    implicit val value : Int = 10
+    // implicit val value2 : Int = 11
+    def sqr(implicit a : Int) : Int = {
+      a * a
+    }
+    println(sqr)
+    println(sqr(11))
+  }
 }
